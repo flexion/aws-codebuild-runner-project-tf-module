@@ -37,7 +37,7 @@ resource "aws_codebuild_webhook" "this" {
   }
 
   dynamic "filter_group" {
-    for_each = var.additional_filter_groups
+    for_each = var.additional_filter_groups != [] ? var.additional_filter_groups : []
     content {
       filter {
         type    = each.value.type

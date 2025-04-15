@@ -35,6 +35,17 @@ resource "aws_codebuild_webhook" "this" {
       pattern = "WORKFLOW_JOB_QUEUED"
     }
   }
+
+  dynamic "filter_group" {
+    for_each = var.additional_filter_groups
+    content {
+      filter {
+        type    = each.value.type
+        pattern = each.value.pattern
+      }
+    }
+  }
+  
   dynamic "scope_configuration" {
     for_each = var.source_location == "CODEBUILD_DEFAULT_WEBHOOK_SOURCE_LOCATION" ? [1] : []
     content {

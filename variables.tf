@@ -44,3 +44,12 @@ variable "codeconnections_arn" {
   type        = string
   description = "Preapproved ARN of the CodeConnection"
 }
+
+variable "additional_filter_groups" {
+  description = "Additional filter groups to be appended to the default"
+  type        = list(object({
+    type    = string
+    pattern = string
+  }))
+  default = []
+}

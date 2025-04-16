@@ -6,7 +6,7 @@ This Terraform module provisions an AWS CodeBuild Runner project with an attache
 
 ## 🛠️ Prerequisites
 
-- A GitHub App **"AWS Connector for GitHub"** successfully installed and configured in your AWS account. [More info on that](https://qnetconfluence.cms.gov/display/ISFCS/Github+Runners+on+CodeBuild)
+- A GitHub App **"AWS Connector for GitHub"** successfully installed and configured in your AWS account. [More info on that](https://qnetconfluence.cms.gov/display/ISFCS/Configuring+Github+Runners+using+AWS+CodeBuild)
 - CodeConnection itself can be provisioned via Terraform but requires manual authorization from AWS. The module will fail if the connection is not authorized.
 
 

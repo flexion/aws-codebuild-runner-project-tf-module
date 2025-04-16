@@ -124,9 +124,9 @@ codeconnections_arn | string | ARN of the CodeConnections resource for GitHub Ap
 environment_type | string | Type of build environment (e.g., LINUX_CONTAINER) | LINUX_CONTAINER | ❌
 environment_compute_type | string | Compute type (e.g., BUILD_GENERAL1_SMALL, BUILD_GENERAL1_MEDIUM) | BUILD_GENERAL1_SMALL | ❌
 environment_image | string | Docker image for the build environment | aws/codebuild/standard:6.0 | ❌
-source_location | string | GitHub repository HTTPS/SSH or CodeConnection location | n/a | ✅
-github_org_name | string | GitHub organization name (used for scope_configuration) | "ccsq-isfcs" | ❌
-additional_filter_groups | list | List of additional filter groups (see examples below) | [] | ❌
+source_location | string | GitHub repository HTTPS/SSH or CodeConnection location | CODEBUILD_DEFAULT_WEBHOOK_SOURCE_LOCATION | ❌
+github_org_name | string | GitHub org name (required only if source_location defaults) | "ccsq-isfcs" | ❌
+additional_filter_groups | list | List of additional filter groups (see examples above) | [] | ❌
 
 - The module always adds one default filter group (to create a runner project).
 - If you provide additional_filter_groups, they are appended after the defaults.

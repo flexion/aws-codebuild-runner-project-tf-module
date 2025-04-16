@@ -7,7 +7,6 @@ variable "description" {
   type        = string
   description = "Description of the CodeBuild project"
   default     = ""
-
 }
 
 variable "build_timeout" {

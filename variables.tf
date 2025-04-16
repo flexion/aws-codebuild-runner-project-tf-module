@@ -6,6 +6,8 @@ variable "name" {
 variable "description" {
   type        = string
   description = "Description of the CodeBuild project"
+  default     = ""
+
 }
 
 variable "build_timeout" {
@@ -19,18 +21,26 @@ variable "service_role_arn" {
   description = "IAM role ARN for CodeBuild to assume"
 }
 
+variable "codeconnections_arn" {
+  type        = string
+  description = "preauthorized ARN of the CodeConnection"
+}
+
 variable "environment_type" {
   type        = string
+  description = "LINUX_CONTAINER for EC2 and LINUX_LAMBDA_CONTAINER for Lambda"
   default     = "LINUX_LAMBDA_CONTAINER"
 }
 
 variable "environment_compute_type" {
-  type        = string
-  default     = "BUILD_LAMBDA_2GB"
+  type          = string
+  description   = "BUILD_GENERAL1_SMALL, BUILD_GENERAL1_MEDIUM, BUILD_LAMBDA_2GB, BUILD_LAMBDA_4GB, etc" 
+  default       = "BUILD_LAMBDA_2GB"
 }
 
 variable "environment_image" {
   type        = string
+  description = "applicable image of ec2 or lambda"
   default     = "aws/codebuild/amazonlinux-x86_64-lambda-standard:nodejs20"
 }
 
@@ -43,11 +53,6 @@ variable source_location {
 variable github_org_name {
   type        = string
   description = "Name of your github org if webhook is of org level"
-}
-
-variable "codeconnections_arn" {
-  type        = string
-  description = "Preapproved ARN of the CodeConnection"
 }
 
 variable "additional_filter_groups" {

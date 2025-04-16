@@ -42,30 +42,6 @@ module "codebuild_project" {
   source_location          = "https://github.com/my-org/my-repo"
   codeconnections_arn      = "arn:aws:codestar-connections:us-east-1:123456789012:connection/abc123"
   // github_org_name          = "my-org"  Only needed if the webhook access level is org level; will be ignored if source_location != "CODEBUILD_DEFAULT_WEBHOOK_SOURCE_LOCATION"
-
-  additional_filter_groups = [
-    [
-      {
-        type    = "EVENT"
-        pattern = "PULL_REQUEST_CREATED"
-      },
-      {
-        type    = "BASE_REF"
-        pattern = "main"
-      }
-    ],
-    [
-      {
-        type    = "EVENT"
-        pattern = "PUSH"
-      },
-      {
-        type                    = "BRANCH_NAME"
-        pattern                 = "release/*"
-        exclude_matched_pattern = true
-      }
-    ]
-  ]
 }
 ```
 
@@ -85,30 +61,6 @@ module "codebuild_project" {
   // source_location          = "https://github.com/my-org/my-repo"
   codeconnections_arn      = aws_codeconnections_connection.private-code-connection.arn
   github_org_name          = "my-org"
-
-  additional_filter_groups = [
-    [
-      {
-        type    = "EVENT"
-        pattern = "PULL_REQUEST_CREATED"
-      },
-      {
-        type    = "BASE_REF"
-        pattern = "main"
-      }
-    ],
-    [
-      {
-        type    = "EVENT"
-        pattern = "PUSH"
-      },
-      {
-        type                    = "BRANCH_NAME"
-        pattern                 = "release/*"
-        exclude_matched_pattern = true
-      }
-    ]
-  ]
 }
 ```
 
@@ -162,6 +114,19 @@ This default filter group is the core logic on provisioning a runner project. As
 
 
 ## 🔧 Input Variables
+
+Name | Type | Description | Default | Required
+name | string | Name of the CodeBuild project | n/a | ✅
+description | string | Description of the project | "" | ❌
+build_timeout | number | Build timeout in minutes | 5 | ❌
+service_role_arn | string | ARN of the IAM role for CodeBuild | n/a | ✅
+codeconnections_arn | string | ARN of the CodeConnections resource for GitHub App | n/a | ✅
+environment_type | string | Type of build environment (e.g., LINUX_CONTAINER) | LINUX_CONTAINER | ❌
+environment_compute_type | string | Compute type (e.g., BUILD_GENERAL1_SMALL, BUILD_GENERAL1_MEDIUM) | BUILD_GENERAL1_SMALL | ❌
+environment_image | string | Docker image for the build environment | aws/codebuild/standard:6.0 | ❌
+source_location | string | GitHub repository HTTPS/SSH or CodeConnection location | n/a | ✅
+github_org_name | string | GitHub organization name (used for scope_configuration) | "ccsq-isfcs" | ❌
+additional_filter_groups | list | List of additional filter groups (see examples below) | [] | ❌
 
 - The module always adds one default filter group (to create a runner project).
 - If you provide additional_filter_groups, they are appended after the defaults.

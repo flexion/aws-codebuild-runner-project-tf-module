@@ -35,16 +35,30 @@ resource "aws_codebuild_webhook" "this" {
       pattern = "WORKFLOW_JOB_QUEUED"
     }
   }
-
-  dynamic "filter_group" {
-    for_each = var.additional_filter_groups != [] ? var.additional_filter_groups : []
-    content {
-      filter {
-        type    = each.value.type
-        pattern = each.value.pattern
-      }
+  
+  filter_group {
+    filter {  
+      type    = "EVENT"
+      pattern = "PUSH"
+    }
+    filter {  
+      type    = "REPOSITORY_NAME"
+      pattern = "test-*"
+      exclude_matched_pattern = true
     }
   }
+
+
+
+  # dynamic "filter_group" {
+  #   for_each = var.additional_filter_groups != [] ? var.additional_filter_groups : []
+  #   content {
+  #     filter {
+  #       type    = each.value.type
+  #       pattern = each.value.pattern
+  #     }
+  #   }
+  # }
   
   dynamic "scope_configuration" {
     for_each = var.source_location == "CODEBUILD_DEFAULT_WEBHOOK_SOURCE_LOCATION" ? [1] : []

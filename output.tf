@@ -1,3 +1,3 @@
 output "project_name" {
-  value = module.codebuild_project.name
+  value = module.aws_codebuild_project.name
 }

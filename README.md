@@ -126,7 +126,7 @@ This default filter group is the core logic that triggers creation of a runner p
 | `environment_type`       | string | Type of build environment (e.g., `LINUX_CONTAINER`)                         | `"LINUX_CONTAINER"`                            | ❌        |
 | `environment_compute_type` | string | Compute type (e.g., `BUILD_GENERAL1_SMALL`, `BUILD_LAMBDA_4GB`)             | `"BUILD_GENERAL1_SMALL"`                       | ❌        |
 | `environment_image`      | string | Docker image for the build environment                                      | `"aws/codebuild/standard:6.0"`                 | ❌        |
-| `source_location`        | string | GitHub repository HTTPS/SSH or CodeConnection location                      | `"CODEBUILD_DEFAULT_WEBHOOK_SOURCE_LOCATION"`  | ❌        |
+| `source_location`        | string | GitHub repository HTTPS/SSH location                                        | `"CODEBUILD_DEFAULT_WEBHOOK_SOURCE_LOCATION"`  | ❌        |
 | `github_org_name`        | string | GitHub organization name (only used when source_location is default)        | `"ccsq-isfcs"`                                 | ❌        |
 | `additional_filter_groups` | list | List of additional filter groups (must include at least one `EVENT` filter) | `[]`                                            | ❌        |
 

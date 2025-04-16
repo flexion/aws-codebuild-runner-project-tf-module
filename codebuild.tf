@@ -29,42 +29,31 @@ resource "aws_codebuild_project" "this" {
 resource "aws_codebuild_webhook" "this" {
   project_name = aws_codebuild_project.this.name
   build_type   = "BUILD"
-  filter_group {
-    filter {  
-      type    = "EVENT"
-      pattern = "WORKFLOW_JOB_QUEUED"
-    }
-  }
   
-  filter_group {
-    filter {  
-      type    = "EVENT"
-      pattern = "PUSH"
-    }
-    filter {  
-      type    = "REPOSITORY_NAME"
-      pattern = "test-*"
-      exclude_matched_pattern = true
+
+  dynamic "filter_group" {
+    for_each = local.all_filter_groups
+    content {
+      dynamic "filter" {
+        for_each = filter_group.value
+        content {
+          type    = filter.value.type
+          pattern = filter.value.pattern
+
+          # Handle optional exclude_matched_pattern
+          # Use ternary to avoid setting null (Terraform doesn't like null bools in some providers)
+          exclude_matched_pattern = contains(keys(filter.value), "exclude_matched_pattern") ? filter.value.exclude_matched_pattern : false
+        }
+      }
     }
   }
 
-
-
-  # dynamic "filter_group" {
-  #   for_each = var.additional_filter_groups != [] ? var.additional_filter_groups : []
-  #   content {
-  #     filter {
-  #       type    = each.value.type
-  #       pattern = each.value.pattern
-  #     }
-  #   }
-  # }
   
   dynamic "scope_configuration" {
     for_each = var.source_location == "CODEBUILD_DEFAULT_WEBHOOK_SOURCE_LOCATION" ? [1] : []
     content {
       scope  = "GITHUB_ORGANIZATION"
-      name   = "ccsq-isfcs"
+      name   = var.github_org_name
     }
   }
 }

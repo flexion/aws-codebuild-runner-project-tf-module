@@ -40,6 +40,11 @@ variable source_location {
   default     = "CODEBUILD_DEFAULT_WEBHOOK_SOURCE_LOCATION"
 }
 
+variable github_org_name {
+  type        = string
+  description = "Name of your github org if webhook is of org level"
+}
+
 variable "codeconnections_arn" {
   type        = string
   description = "Preapproved ARN of the CodeConnection"
@@ -47,9 +52,23 @@ variable "codeconnections_arn" {
 
 variable "additional_filter_groups" {
   description = "Additional filter groups to be appended to the default"
-  type        = list(object({
-    type    = string
-    pattern = string
-  }))
+  type = list(list(object({
+    type                    = string
+    pattern                 = string
+    exclude_matched_pattern = optional(bool)
+  })))
   default = []
+}
+
+locals {
+  default_filter_groups = [
+    [ # group 1
+      {
+        type    = "EVENT"
+        pattern = "WORKFLOW_JOB_QUEUED"
+      }
+    ]
+  ]
+
+  all_filter_groups = concat(local.default_filter_groups, var.additional_filter_groups)
 }

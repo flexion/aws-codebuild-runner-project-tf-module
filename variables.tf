@@ -32,9 +32,9 @@ variable "environment_type" {
 }
 
 variable "environment_compute_type" {
-  type          = string
-  description   = "BUILD_GENERAL1_SMALL, BUILD_GENERAL1_MEDIUM, BUILD_LAMBDA_2GB, BUILD_LAMBDA_4GB, etc" 
-  default       = "BUILD_LAMBDA_2GB"
+  type        = string
+  description = "BUILD_GENERAL1_SMALL, BUILD_GENERAL1_MEDIUM, BUILD_LAMBDA_2GB, BUILD_LAMBDA_4GB, etc"
+  default     = "BUILD_LAMBDA_2GB"
 }
 
 variable "environment_image" {
@@ -43,13 +43,13 @@ variable "environment_image" {
   default     = "aws/codebuild/amazonlinux-x86_64-lambda-standard:nodejs20"
 }
 
-variable source_location {  
+variable "source_location" {
   type        = string
   description = "The git remote address for the repository"
   default     = "CODEBUILD_DEFAULT_WEBHOOK_SOURCE_LOCATION"
 }
 
-variable github_org_name {
+variable "github_org_name" {
   type        = string
   description = "Name of your github org if webhook is of org level"
 }

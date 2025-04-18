@@ -29,7 +29,7 @@ resource "aws_codebuild_project" "this" {
 resource "aws_codebuild_webhook" "this" {
   project_name = aws_codebuild_project.this.name
   build_type   = "BUILD"
-  
+
 
   dynamic "filter_group" {
     for_each = local.all_filter_groups
@@ -48,12 +48,12 @@ resource "aws_codebuild_webhook" "this" {
     }
   }
 
-  
+
   dynamic "scope_configuration" {
     for_each = var.source_location == "CODEBUILD_DEFAULT_WEBHOOK_SOURCE_LOCATION" ? [1] : []
     content {
-      scope  = "GITHUB_ORGANIZATION"
-      name   = var.github_org_name
+      scope = "GITHUB_ORGANIZATION"
+      name  = var.github_org_name
     }
   }
 }

@@ -23,78 +23,11 @@ This Terraform module provisions an AWS CodeBuild Runner project with an attache
 
 ## 📦 Module Usage Examples
 
-### Example 1: Access level - Repo | Compute - EC2 | Mode - Container
+See the [examples](examples) dir for examples of usage: 
 
-```tf
-module "codebuild_project" {
-  source = "git@github.com:flexion/aws-codebuild-runner-project-tf-module.git?ref=1.0.0"
-
-  name                     = "my-codebuild-project"
-  description              = "Builds on workflow events"
-  build_timeout            = 10
-  service_role_arn         = "arn:aws:iam::123456789012:role/codebuild-role"
-  // Running mode
-  environment_type         = "LINUX_CONTAINER"
-  // Compute Type: EC2
-  environment_compute_type = "BUILD_GENERAL1_SMALL"
-  // Image: EC2 AMI Image
-  environment_image        = "aws/codebuild/amazonlinux-x86_64-standard:5.0"
-  // As the access level is repo; remote repo address
-  source_location          = "https://github.com/my-org/my-repo"
-  codeconnections_arn      = "arn:aws:codestar-connections:us-east-1:123456789012:connection/abc123"
-  // github_org_name          = "my-org"  Only needed if the webhook access level is org level; will be ignored if source_location != "CODEBUILD_DEFAULT_WEBHOOK_SOURCE_LOCATION"
-}
-```
-
-### Example 2: Access level - Org | Compute - Lambda (4 GB) | Mode - Container
-
-```tf
-module "codebuild_project" {
-  source = "git@github.com:flexion/aws-codebuild-runner-project-tf-module.git?ref=1.0.0"
-
-  name                     = "my-codebuild-project"
-  description              = "Builds on workflow events"
-  build_timeout            = 10
-  service_role_arn         = aws_iam_role.codebuild-exec-role.arn
-  // All environment variable defaults except Memory
-  environment_compute_type = "BUILD_LAMBDA_4GB"
-  // As the access level is org; source_location must be CODEBUILD_DEFAULT_WEBHOOK_SOURCE_LOCATION (this is default as well)
-  // source_location          = "https://github.com/my-org/my-repo"
-  codeconnections_arn      = aws_codeconnections_connection.private-code-connection.arn
-  github_org_name          = "my-org"
-}
-```
-
-### Example 3: Repo-level access with additional webhook filter
-
-```tf
-module "codebuild_project" {
-  source = "git@github.com:flexion/aws-codebuild-runner-project-tf-module.git?ref=1.0.0"
-
-  name                     = "my-codebuild-project"
-  description              = "Builds on workflow events"
-  build_timeout            = 10
-  service_role_arn         = aws_iam_role.codebuild-exec-role.arn
-  // All environment variable defaults
-  // As the access level is not org; source_location must be a repo name
-  source_location          = "https://github.com/my-org/my-repo"
-  codeconnections_arn      = aws_codeconnections_connection.private-code-connection.arn
-
-   additional_filter_groups = [
-    [  
-      {  
-        type    = "EVENT"
-        pattern = "PUSH"
-      },
-      {  
-        type    = "REPOSITORY_NAME"
-        pattern = "test-*"
-        exclude_matched_pattern = true
-      }
-    ]
-  ]
-}
-```
+1. [Access level - Repo | Compute - EC2 | Mode - Container](examples/repo-ec2)
+1. [Access level - Org | Compute - Lambda (4 GB) | Mode - Container](examples/org-lambda)
+1. [Repo-level access with additional webhook filter](examples/repo-webhook)
 
 ---
 

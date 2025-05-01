@@ -42,7 +42,11 @@ variable "runner_domain" {
   default = ""
 }
 
-
+variable "tags" {
+  type        = map(string)
+  description = "Tags to apply to all created resources"
+  default     = {}
+}
 
 
 variable "build_timeout" {
@@ -51,14 +55,15 @@ variable "build_timeout" {
   description = "Build timeout in minutes"
 }
 
-variable "service_role_arn" {
-  type        = string
-  description = "IAM role ARN for CodeBuild to assume"
-}
+# variable "service_role_arn" {
+#   type        = string
+#   description = "IAM role ARN for CodeBuild to assume"
+# }
 
 variable "codeconnections_arn" {
   type        = string
   description = "preauthorized ARN of the CodeConnection"
+  default     = ""
 }
 
 variable "environment_type" {
@@ -79,16 +84,16 @@ variable "environment_image" {
   default     = "aws/codebuild/amazonlinux-x86_64-lambda-standard:nodejs20"
 }
 
-variable source_location {  
-  type        = string
-  description = "The git remote address for the repository"
-  default     = "CODEBUILD_DEFAULT_WEBHOOK_SOURCE_LOCATION"
-}
+# variable source_location {  
+#   type        = string
+#   description = "The git remote address for the repository"
+#   default     = "CODEBUILD_DEFAULT_WEBHOOK_SOURCE_LOCATION"
+# }
 
-variable github_org_name {
-  type        = string
-  description = "Name of your github org if webhook is of org level"
-}
+# variable github_org_name {
+#   type        = string
+#   description = "Name of your github org if webhook is of org level"
+# }
 
 variable "additional_filter_groups" {
   description = "Additional filter groups to be appended to the default"
@@ -122,6 +127,12 @@ locals {
 
 variable "cloudwatch_logs_group_name" {
   description = "Name of the log group used by the CodeBuild project. If not specified then a default is used."
+  type        = string
+  default     = null
+}
+
+variable "cloudwatch_logs_stream_name" {
+  description = "Name of the log stream used by the CodeBuild project. If not specified then a default is used."
   type        = string
   default     = null
 }

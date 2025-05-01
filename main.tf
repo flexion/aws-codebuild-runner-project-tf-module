@@ -5,11 +5,11 @@ resource "aws_codebuild_project" "this" {
   name          = var.name
   description   = var.description
   build_timeout = var.build_timeout
-  # service_role = (
-  #   local.create_iam_role
-  #   ? aws_iam_role.this[0].arn
-  #   : "arn:aws:iam::${local.aws_account_id}:role/${var.iam_role_name}"
-  # )
+  service_role = (
+    var.iam_role_name == null
+    ? aws_iam_role.this[0].arn
+    : "arn:aws:iam::${local.aws_account_id}:role/${var.iam_role_name}"
+  )
 
   artifacts {
     type = "NO_ARTIFACTS"
@@ -21,7 +21,6 @@ resource "aws_codebuild_project" "this" {
     image        = var.environment_image
 
     # privileged_mode             = true
-    tags = var.tags
   }
 
   logs_config {
@@ -56,7 +55,7 @@ resource "aws_codebuild_project" "this" {
 }
 
 resource "aws_codebuild_webhook" "this" {
-  depends_on   = [aws_codebuild_source_credential.string, aws_codebuild_source_credential.ssm]
+  # depends_on   = [aws_codebuild_source_credential.string, aws_codebuild_source_credential.ssm]
   project_name = aws_codebuild_project.this.name
   build_type   = "BUILD"
   filter_group {

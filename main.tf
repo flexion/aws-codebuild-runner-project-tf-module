@@ -2,7 +2,8 @@ resource "aws_codebuild_project" "this" {
   name          = var.name
   description   = var.description
   build_timeout = var.build_timeout
-  service_role  = var.service_role_arn
+  # service_role  = var.service_role_arn
+  service_role = data.aws_iam_role.role.arn
 
   artifacts {
     type = "NO_ARTIFACTS"

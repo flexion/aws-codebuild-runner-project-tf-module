@@ -15,10 +15,15 @@ variable "build_timeout" {
   description = "Build timeout in minutes"
 }
 
-variable "service_role_arn" {
+variable "service_role_name" {
   type        = string
-  description = "IAM role ARN for CodeBuild to assume"
+  description = "IAM role name for CodeBuild to assume"
 }
+
+# variable "service_role_arn" {
+#   type        = string
+#   description = "IAM role ARN for CodeBuild to assume"
+# }
 
 variable "codeconnections_arn" {
   type        = string
@@ -62,17 +67,4 @@ variable "additional_filter_groups" {
     exclude_matched_pattern = optional(bool)
   })))
   default = []
-}
-
-locals {
-  default_filter_groups = [
-    [ # group 1
-      {
-        type    = "EVENT"
-        pattern = "WORKFLOW_JOB_QUEUED"
-      }
-    ]
-  ]
-
-  all_filter_groups = concat(local.default_filter_groups, var.additional_filter_groups)
 }

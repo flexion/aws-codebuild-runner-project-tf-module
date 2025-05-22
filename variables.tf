@@ -34,6 +34,7 @@ variable "github_personal_access_token_ssm_parameter" {
 variable "codeconnections_arn" {
   type        = string
   description = "preauthorized ARN of the CodeConnection"
+  default     = null
 }
 
 variable "environment_type" {

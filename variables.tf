@@ -25,6 +25,12 @@ variable "service_role_name" {
 #   description = "IAM role ARN for CodeBuild to assume"
 # }
 
+variable "github_personal_access_token_ssm_parameter" {
+  description = "The GitHub personal access token to use for accessing the repository. If not specified then GitHub auth must be configured separately."
+  type        = string
+  default     = null
+}
+
 variable "codeconnections_arn" {
   type        = string
   description = "preauthorized ARN of the CodeConnection"

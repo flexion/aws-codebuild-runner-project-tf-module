@@ -19,12 +19,23 @@ resource "aws_codebuild_project" "this" {
   source {
     type     = "GITHUB"
     location = var.source_location
-    auth {
-      type     = "CODECONNECTIONS"
-      resource = var.codeconnections_arn
+    
+    dynamic "auth" {
+      for_each = var.codeconnections_arn != null ? [1] : []
+      content {
+        type     = "CODECONNECTIONS"
+        resource = var.codeconnections_arn
+      }
     }
   }
 
+}
+### Option to specify PAT. Only works if SSM Param is given
+resource "aws_codebuild_source_credential" "ssm" {
+  count       = var.github_personal_access_token_ssm_parameter != null ? 1 : 0
+  auth_type   = "PERSONAL_ACCESS_TOKEN"
+  server_type = "GITHUB"
+  token       = data.aws_ssm_parameter.github_personal_access_token[0].value
 }
 
 resource "aws_codebuild_webhook" "this" {

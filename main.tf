@@ -16,6 +16,16 @@ resource "aws_codebuild_project" "this" {
     image_pull_credentials_type = "CODEBUILD"
   }
 
+  logs_config {
+    dynamic "cloudwatch_logs" {
+      for_each = try(var.cloudwatch_logs_group_name, "") == "" ? toset([]) : toset([1])
+      content {
+        group_name = var.cloudwatch_logs_group_name
+        stream_name = var.cloudwatch_logs_stream_name == "" ? var.name : var.cloudwatch_logs_stream_name
+      }
+    }
+  }
+
   source {
     type     = "GITHUB"
     location = var.source_location

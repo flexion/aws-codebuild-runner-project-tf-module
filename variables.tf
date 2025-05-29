@@ -20,6 +20,18 @@ variable "service_role_name" {
   description = "IAM role name for CodeBuild to assume"
 }
 
+variable "cloudwatch_logs_group_name" {
+  type        = string
+  description = "Name of the CloudWatch log group"
+  default     = ""
+}
+
+variable "cloudwatch_logs_stream_name" {
+  type        = string
+  description = "Name of the CloudWatch log stream"
+  default     = ""
+}
+
 # variable "service_role_arn" {
 #   type        = string
 #   description = "IAM role ARN for CodeBuild to assume"

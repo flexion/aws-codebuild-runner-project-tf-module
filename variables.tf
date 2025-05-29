@@ -15,14 +15,33 @@ variable "build_timeout" {
   description = "Build timeout in minutes"
 }
 
-variable "service_role_arn" {
+variable "service_role_name" {
   type        = string
-  description = "IAM role ARN for CodeBuild to assume"
+  description = "IAM role name for CodeBuild to assume"
+}
+
+variable "cloudwatch_logs_group_name" {
+  type        = string
+  description = "Name of the CloudWatch log group"
+  default     = ""
+}
+
+variable "cloudwatch_logs_stream_name" {
+  type        = string
+  description = "Name of the CloudWatch log stream"
+  default     = ""
+}
+
+variable "github_personal_access_token_ssm_parameter" {
+  description = "The GitHub personal access token to use for accessing the repository. If not specified then GitHub auth must be configured separately."
+  type        = string
+  default     = null
 }
 
 variable "codeconnections_arn" {
   type        = string
   description = "preauthorized ARN of the CodeConnection"
+  default     = null
 }
 
 variable "environment_type" {
@@ -62,17 +81,4 @@ variable "additional_filter_groups" {
     exclude_matched_pattern = optional(bool)
   })))
   default = []
-}
-
-locals {
-  default_filter_groups = [
-    [ # group 1
-      {
-        type    = "EVENT"
-        pattern = "WORKFLOW_JOB_QUEUED"
-      }
-    ]
-  ]
-
-  all_filter_groups = concat(local.default_filter_groups, var.additional_filter_groups)
 }

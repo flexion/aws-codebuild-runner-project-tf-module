@@ -1,10 +1,10 @@
 module "codebuild_project" {
   source = "../.."
 
-  name             = "my-codebuild-project"
-  description      = "Builds on workflow events"
-  build_timeout    = 10
-  service_role_arn = aws_iam_role.codebuild-exec-role.arn
+  name              = "my-codebuild-project"
+  description       = "Builds on workflow events"
+  build_timeout     = 10
+  service_role_name = aws_iam_role.codebuild-exec-role.name
   // All environment variable defaults except Memory
   environment_compute_type = "BUILD_LAMBDA_4GB"
   // As the access level is org; source_location must be CODEBUILD_DEFAULT_WEBHOOK_SOURCE_LOCATION (this is default as well)

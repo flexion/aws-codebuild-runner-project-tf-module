@@ -1,10 +1,10 @@
 module "codebuild_project" {
   source = "../../"
 
-  name             = "my-codebuild-project"
-  description      = "Builds on workflow events"
-  build_timeout    = 10
-  service_role_arn = "arn:aws:iam::123456789012:role/codebuild-role"
+  name          = "my-codebuild-project"
+  description   = "Builds on workflow events"
+  build_timeout = 10
+  service_role_name = "codebuild-role"
   // Running mode
   environment_type = "LINUX_CONTAINER"
   // Compute Type: EC2

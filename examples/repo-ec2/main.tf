@@ -4,7 +4,6 @@ module "codebuild_project" {
   name          = "my-codebuild-project"
   description   = "Builds on workflow events"
   build_timeout = 10
-  # service_role_arn = "arn:aws:iam::123456789012:role/codebuild-role"
   service_role_name = "codebuild-role"
   // Running mode
   environment_type = "LINUX_CONTAINER"

@@ -51,6 +51,7 @@ data "aws_iam_policy_document" "this" {
 }
 
 resource "aws_secretsmanager_secret_policy" "this" {
-  secret_arn = aws_secretsmanager_secret.this.arn
+  count = var.github_personal_access_token_ssm_parameter != null &&var.pat_override == true ? 1 : 0
+  secret_arn = aws_secretsmanager_secret.this[0].arn
   policy     = data.aws_iam_policy_document.this.json
 }

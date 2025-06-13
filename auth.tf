@@ -41,7 +41,7 @@ data "aws_iam_policy_document" "example" {
       type        = "AWS"
       identifiers = [
         "arn:aws:iam::123456789012:root",
-        "arn:aws:iam::941681414890:role/${var.codebuild_service_role_name}"
+        "arn:aws:iam::941681414890:role/${var.service_role_name}"
       ]
     }
 

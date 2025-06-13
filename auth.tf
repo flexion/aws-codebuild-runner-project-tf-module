@@ -32,7 +32,7 @@ resource "aws_codebuild_source_credential" "ssm" {
 }
 
 ### Provide service role access to secrets manager secret
-data "aws_iam_policy_document" "example" {
+data "aws_iam_policy_document" "this" {
   statement {
     sid    = "EnableAnotherAWSAccountToReadTheSecret"
     effect = "Allow"
@@ -50,7 +50,7 @@ data "aws_iam_policy_document" "example" {
   }
 }
 
-resource "aws_secretsmanager_secret_policy" "example" {
-  secret_arn = aws_secretsmanager_secret.example.arn
-  policy     = data.aws_iam_policy_document.example.json
+resource "aws_secretsmanager_secret_policy" "this" {
+  secret_arn = aws_secretsmanager_secret.this.arn
+  policy     = data.aws_iam_policy_document.this.json
 }

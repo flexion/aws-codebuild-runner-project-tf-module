@@ -1,24 +1,24 @@
 locals {
   secrets_manager_kvs = {
     ServerType = "GITHUB"
-    AuthType = "PERSONAL_ACCESS_TOKEN"
-    Token = data.aws_ssm_parameter.github_personal_access_token[0].value
+    AuthType   = "PERSONAL_ACCESS_TOKEN"
+    Token      = data.aws_ssm_parameter.github_personal_access_token[0].value
   }
 }
 
 ### Secrets manager secret for PAT
 resource "aws_secretsmanager_secret" "this" {
-  count = var.github_personal_access_token_ssm_parameter != null &&var.pat_override == true ? 1 : 0
-  name = var.name
+  count = var.github_personal_access_token_ssm_parameter != null && var.pat_override == true ? 1 : 0
+  name  = var.name
   tags = {
-    "codebuild:source" = ""
+    "codebuild:source"          = ""
     "codebuild:source:provider" = "github"
-    "codebuild:source:type" = "personal_access_token"
+    "codebuild:source:type"     = "personal_access_token"
   }
 }
 
 resource "aws_secretsmanager_secret_version" "this" {
-  count = var.github_personal_access_token_ssm_parameter != null && var.pat_override == true ? 1 : 0
+  count         = var.github_personal_access_token_ssm_parameter != null && var.pat_override == true ? 1 : 0
   secret_id     = aws_secretsmanager_secret.this[0].id
   secret_string = jsonencode(local.secrets_manager_kvs)
 }
@@ -40,7 +40,7 @@ data "aws_iam_policy_document" "this" {
     effect = "Allow"
 
     principals {
-      type        = "AWS"
+      type = "AWS"
       identifiers = [
         "arn:aws:iam::${data.aws_caller_identity.current.account_id}:root",
         "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/${var.service_role_name}"
@@ -53,7 +53,7 @@ data "aws_iam_policy_document" "this" {
 }
 
 resource "aws_secretsmanager_secret_policy" "this" {
-  count = var.github_personal_access_token_ssm_parameter != null &&var.pat_override == true ? 1 : 0
+  count      = var.github_personal_access_token_ssm_parameter != null && var.pat_override == true ? 1 : 0
   secret_arn = aws_secretsmanager_secret.this[0].arn
   policy     = data.aws_iam_policy_document.this.json
 }

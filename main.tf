@@ -20,7 +20,7 @@ resource "aws_codebuild_project" "this" {
     dynamic "cloudwatch_logs" {
       for_each = try(var.cloudwatch_logs_group_name, "") == "" ? toset([]) : toset([1])
       content {
-        group_name = var.cloudwatch_logs_group_name
+        group_name  = var.cloudwatch_logs_group_name
         stream_name = var.cloudwatch_logs_stream_name == "" ? var.name : var.cloudwatch_logs_stream_name
       }
     }
@@ -29,7 +29,7 @@ resource "aws_codebuild_project" "this" {
   source {
     type     = "GITHUB"
     location = var.source_location
-    
+
     dynamic "auth" {
       for_each = var.codeconnections_arn != null ? [1] : []
       content {

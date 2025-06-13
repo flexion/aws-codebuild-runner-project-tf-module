@@ -32,6 +32,8 @@ resource "aws_codebuild_source_credential" "ssm" {
 }
 
 ### Provide service role access to secrets manager secret
+data "aws_caller_identity" "current" {}
+
 data "aws_iam_policy_document" "this" {
   statement {
     sid    = "EnableAnotherAWSAccountToReadTheSecret"
@@ -40,8 +42,8 @@ data "aws_iam_policy_document" "this" {
     principals {
       type        = "AWS"
       identifiers = [
-        "arn:aws:iam::123456789012:root",
-        "arn:aws:iam::941681414890:role/${var.service_role_name}"
+        "arn:aws:iam::${data.aws_caller_identity.current.account_id}:root",
+        "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/${var.service_role_name}"
       ]
     }
 

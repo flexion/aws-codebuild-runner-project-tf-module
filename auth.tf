@@ -10,17 +10,17 @@ locals {
 resource "aws_secretsmanager_secret" "this" {
   count = var.github_personal_access_token_ssm_parameter != null &&var.pat_override == true ? 1 : 0
   name = var.name
+  tags = {
+    "codebuild:source" = ""
+    "codebuild:source:provider" = "github"
+    "codebuild:source:type" = "personal_access_token"
+  }
 }
 
 resource "aws_secretsmanager_secret_version" "this" {
   count = var.github_personal_access_token_ssm_parameter != null && var.pat_override == true ? 1 : 0
   secret_id     = aws_secretsmanager_secret.this[0].id
   secret_string = jsonencode(local.secrets_manager_kvs)
-  tags = {
-    "codebuild:source" = ""
-    "codebuild:source:provider" = "github"
-    "codebuild:source:type" = "personal_access_token"
-  }
 }
 
 ### Option to specify default PAT. Only works if SSM Param is given and override isn't enabled.

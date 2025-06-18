@@ -82,3 +82,9 @@ variable "additional_filter_groups" {
   })))
   default = []
 }
+
+variable "pat_override" {
+  description = "Is the PAT provided an override of the default account token. Default: true"
+  default     = true
+  type        = bool
+}

@@ -1,9 +1,9 @@
 module "codebuild_project" {
   source = "../../"
 
-  name          = "my-codebuild-project"
-  description   = "Builds on workflow events"
-  build_timeout = 10
+  name              = "my-codebuild-project"
+  description       = "Builds on workflow events"
+  build_timeout     = 10
   service_role_name = "codebuild-role"
   // Running mode
   environment_type = "LINUX_CONTAINER"

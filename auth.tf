@@ -1,9 +1,9 @@
 locals {
-  secrets_manager_kvs = {
+  secrets_manager_kvs = var.github_personal_access_token_ssm_parameter != null ? {
     ServerType = "GITHUB"
     AuthType   = "PERSONAL_ACCESS_TOKEN"
     Token      = data.aws_ssm_parameter.github_personal_access_token[0].value
-  }
+  } : {}
 }
 
 ### Secrets manager secret for PAT

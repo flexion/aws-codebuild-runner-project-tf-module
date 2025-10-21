@@ -47,6 +47,14 @@ resource "aws_codebuild_project" "this" {
     }
   }
 
+  dynamic "vpc_config" {
+    for_each = (var.vpc_id != null && length(var.vpc_subnet_ids) > 0) ? toset([1]) : toset([])
+    content {
+      vpc_id             = var.vpc_id
+      subnets            = var.vpc_subnet_ids
+      security_group_ids = var.vpc_security_group_ids
+    }
+  }
 }
 
 resource "aws_codebuild_webhook" "this" {

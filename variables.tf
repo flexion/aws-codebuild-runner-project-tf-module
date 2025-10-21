@@ -88,3 +88,21 @@ variable "pat_override" {
   default     = true
   type        = bool
 }
+
+variable "vpc_id" {
+  type        = string
+  description = "The VPC ID for AWS CodeBuild to launch ephemeral instances in."
+  default     = null
+}
+
+variable "vpc_subnet_ids" {
+  type        = list(string)
+  description = "The list of Subnet IDs for AWS CodeBuild to launch ephemeral EC2 instances in."
+  default     = []
+}
+
+variable "vpc_security_group_ids" {
+  type        = list(string)
+  description = "The list of Security Group IDs for AWS CodeBuild to launch ephemeral EC2 instances in."
+  default     = []
+}

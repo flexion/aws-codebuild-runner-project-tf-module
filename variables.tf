@@ -62,6 +62,12 @@ variable "environment_image" {
   default     = "aws/codebuild/amazonlinux-x86_64-lambda-standard:nodejs20"
 }
 
+variable "environment_image_pull_creds" {
+  type        = string
+  description = "Type of credentials AWS CodeBuild uses to pull images in your build. Valid values: CODEBUILD, SERVICE_ROLE."
+  default     = "CODEBUILD"
+}
+
 variable "source_location" {
   type        = string
   description = "The git remote address for the repository"

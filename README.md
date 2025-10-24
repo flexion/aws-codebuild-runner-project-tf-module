@@ -1,3 +1,5 @@
+eric
+
 # Terraform AWS CodeBuild Runner Project
 
 This Terraform module provisions an AWS CodeBuild Runner project with an attached webhook. Currently, AWS does not support creating Runner Projects via API or CLI. This module is a workaround. Terraform creates a default project and, by applying certain webhooks, it converts the project into a Runner project. This module is useful for teams that want to run GitHub Actions on AWS-managed on-demand compute.

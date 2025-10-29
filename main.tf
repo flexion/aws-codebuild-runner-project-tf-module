@@ -13,7 +13,7 @@ resource "aws_codebuild_project" "this" {
     type                        = var.environment_type
     compute_type                = var.environment_compute_type
     image                       = var.environment_image
-    image_pull_credentials_type = "CODEBUILD"
+    image_pull_credentials_type = var.environment_image_pull_creds
   }
 
   logs_config {

@@ -36,8 +36,9 @@ resource "aws_codebuild_project" "this" {
   }
 
   source {
-    type     = "GITHUB"
-    location = var.source_location
+    type      = "GITHUB"
+    location  = var.source_location
+    buildspec = var.source_buildspec
 
     dynamic "auth" {
       for_each = var.codeconnections_arn != null ? [1] : []
@@ -52,6 +53,13 @@ resource "aws_codebuild_project" "this" {
       content {
         type     = "SECRETS_MANAGER"
         resource = aws_secretsmanager_secret.this[0].arn
+      }
+    }
+
+    dynamic "git_submodules_config" {
+      for_each = var.source_git_submodules_config_fetch != null ? [1] : []
+      content {
+        fetch_submodules = var.source_git_submodules_config_fetch
       }
     }
   }

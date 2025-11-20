@@ -80,6 +80,18 @@ variable "environment_image_pull_creds" {
   default     = "CODEBUILD"
 }
 
+variable "source_buildspec" {
+  type        = string
+  description = "The build spec declaration to use for this build project's related builds. Enter a path from your repository's root dir."
+  default     = null
+}
+
+variable "source_git_submodules_config_fetch" {
+  type        = bool
+  description = "Whether to fetch Git submodules for the AWS CodeBuild build project."
+  default     = false
+}
+
 variable "source_location" {
   type        = string
   description = "The git remote address for the repository"

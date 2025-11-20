@@ -1,0 +1,35 @@
+formatter: markdown
+
+header-from: README.header.md
+footer-from: README.footer.md
+
+sections:
+  #hide: [footer, header]
+  show: [header, data-sources, inputs, modules, outputs, providers, requirements, resources, footer]
+
+output:
+  file: ""
+  mode: inject
+  template: |-
+    <!-- BEGIN_TF_DOCS -->
+    {{ .Content }}
+    <!-- END_TF_DOCS -->
+
+output-values:
+  enabled: false
+  from: ""
+
+sort:
+  enabled: true
+  by: name
+
+settings:
+  anchor: true
+  color: true
+  default: true
+  description: false
+  escape: true
+  indent: 2
+  required: true
+  sensitive: true
+  type: true

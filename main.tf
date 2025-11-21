@@ -14,6 +14,15 @@ resource "aws_codebuild_project" "this" {
     compute_type                = var.environment_compute_type
     image                       = var.environment_image
     image_pull_credentials_type = var.environment_image_pull_creds
+    privileged_mode             = var.privileged_mode
+
+    dynamic "docker_server" {
+      for_each = var.docker_server_compute_type != null ? [1] : []
+      content {
+        compute_type       = var.docker_server_compute_type
+        security_group_ids = var.docker_server_security_group_ids
+      }
+    }
   }
 
   logs_config {
@@ -27,8 +36,9 @@ resource "aws_codebuild_project" "this" {
   }
 
   source {
-    type     = "GITHUB"
-    location = var.source_location
+    type      = "GITHUB"
+    location  = var.source_location
+    buildspec = var.source_buildspec
 
     dynamic "auth" {
       for_each = var.codeconnections_arn != null ? [1] : []
@@ -43,6 +53,13 @@ resource "aws_codebuild_project" "this" {
       content {
         type     = "SECRETS_MANAGER"
         resource = aws_secretsmanager_secret.this[0].arn
+      }
+    }
+
+    dynamic "git_submodules_config" {
+      for_each = var.source_git_submodules_config_fetch != null ? [1] : []
+      content {
+        fetch_submodules = var.source_git_submodules_config_fetch
       }
     }
   }

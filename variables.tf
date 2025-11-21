@@ -44,6 +44,18 @@ variable "codeconnections_arn" {
   default     = null
 }
 
+variable "docker_server_compute_type" {
+  description = "Compute type for the Docker server. Default: null. Valid values: BUILD_GENERAL1_SMALL, BUILD_GENERAL1_MEDIUM, BUILD_GENERAL1_LARGE, BUILD_GENERAL1_XLARGE, and BUILD_GENERAL1_2XLARGE."
+  type        = string
+  default     = null
+}
+
+variable "docker_server_security_group_ids" {
+  description = "The list of Security Group IDs for the Docker server."
+  type        = list(string)
+  default     = null
+}
+
 variable "environment_type" {
   type        = string
   description = "LINUX_CONTAINER for EC2 and LINUX_LAMBDA_CONTAINER for Lambda"
@@ -66,6 +78,18 @@ variable "environment_image_pull_creds" {
   type        = string
   description = "Type of credentials AWS CodeBuild uses to pull images in your build. Valid values: CODEBUILD, SERVICE_ROLE."
   default     = "CODEBUILD"
+}
+
+variable "source_buildspec" {
+  type        = string
+  description = "The build spec declaration to use for this build project's related builds. Enter a path from your repository's root dir."
+  default     = null
+}
+
+variable "source_git_submodules_config_fetch" {
+  type        = bool
+  description = "Whether to fetch Git submodules for the AWS CodeBuild build project."
+  default     = false
 }
 
 variable "source_location" {
@@ -93,6 +117,12 @@ variable "pat_override" {
   description = "Is the PAT provided an override of the default account token. Default: true"
   default     = true
   type        = bool
+}
+
+variable "privileged_mode" {
+  description = "Is privileged mode enabled for AWS CodeBuild. Required for Docker builds. Default: false"
+  type        = bool
+  default     = false
 }
 
 variable "vpc_id" {

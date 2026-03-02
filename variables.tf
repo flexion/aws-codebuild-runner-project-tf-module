@@ -142,3 +142,9 @@ variable "vpc_security_group_ids" {
   description = "The list of Security Group IDs for AWS CodeBuild to launch ephemeral EC2 instances in."
   default     = []
 }
+
+variable "fleet_arn" {
+  type        = string
+  description = "The ARN of the AWS CodeBuild compute fleet to run the project on if using reserved capacity for project (example: arn:aws:codebuild:us-east-1:123456789012:fleet/my-codebuild-fleet)"
+  default     = null
+}

@@ -23,6 +23,13 @@ resource "aws_codebuild_project" "this" {
         security_group_ids = var.docker_server_security_group_ids
       }
     }
+
+    dynamic "fleet" {
+      for_each = var.fleet_arn != null ? [1] : []
+      content {
+        fleet_arn = var.fleet_arn
+      }
+    }
   }
 
   logs_config {
